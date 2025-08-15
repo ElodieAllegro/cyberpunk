@@ -1,0 +1,471 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Orbitron', monospace;
+    overflow-x: hidden;
+    background: #000;
+}
+
+/* Scrollbar cyberpunk */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00ff41;
+    border-radius: 4px;
+    box-shadow: 0 0 10px #00ff41;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #00cc33;
+    box-shadow: 0 0 15px #00ff41;
+}
+
+.container {
+    position: relative;
+}
+
+/* Animation principale fixe */
+.animation-viewport {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    overflow: hidden;
+    z-index: 50;
+}
+
+/* Partie supérieure du texte SCROLLING */
+.text-upper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: inset(0 0 50% 0);
+    transition: transform 0.1s ease-out;
+    z-index: 30;
+}
+
+/* Partie inférieure du texte SCROLLING */
+.text-lower {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: inset(50% 0 0 0);
+    transition: transform 0.1s ease-out;
+    z-index: 30;
+}
+
+.scrolling-text {
+    font-size: clamp(4rem, 15vw, 12rem);
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 
+        0 0 5px rgba(255, 255, 255, 0.5),
+        0 0 10px rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.1em;
+    user-select: none;
+    text-transform: uppercase;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Contenu révélé avec style cyberpunk */
+.revealed-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    z-index: 20;
+    overflow: hidden;
+}
+
+/* Effet de grille cyberpunk en arrière-plan */
+.cyber-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: blanc;
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+    opacity: 0.3;
+}
+
+@keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+/* Titre principal cyberpunk */
+.main-title {
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 700;
+    color: #00ff41;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: 
+        0 0 5px #00ff41,
+        0 0 10px #00ff41,
+        0 0 15px rgba(0, 255, 65, 0.5);
+    transform: translateY(100vh);
+    transform: translateY(100vh);
+    transition: transform 0.5s ease-out;
+    line-height: 1.1;
+    transform-origin: center;
+}
+
+/* Sous-titre "Tes sneakers" */
+.sub-title {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-weight: 400;
+    color: #00ff41;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 
+        0 0 3px #00ff41,
+        0 0 6px #00ff41,
+        0 0 10px rgba(0, 255, 65, 0.3);
+    transform: translateY(100vh);
+    transition: transform 0.5s ease-out;
+    line-height: 1.2;
+    transform-origin: center;
+    opacity: 0.9;
+}
+
+/* Icône centrale avec effet cyberpunk */
+.cyber-icon {
+    width: 120px;
+    height: 120px;
+    margin: 2rem 0;
+    opacity: 1;
+    transform: translateY(100vh) rotate(0deg) scale(1);
+    transition: transform 0.1s ease-out;
+    position: relative;
+}
+
+.cyber-icon svg {
+    width: 100%;
+    height: 100%;
+    color: #00ff41;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 65, 0.6));
+}
+
+/* Effet de pulsation autour de l'icône */
+.cyber-icon::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px solid #00ff41;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+/* Bouton Remix cyberpunk */
+.remix-button {
+    padding: 1rem 3rem;
+    background: linear-gradient(45deg, #000, #001a00);
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    opacity: 1;
+    transform: translateY(100vh);
+    transition: all 0.3s ease-out;
+    text-shadow: 0 0 3px rgba(0, 255, 65, 0.6);
+}
+
+.remix-button:hover {
+    background: linear-gradient(45deg, #001a00, #003300);
+    box-shadow: 
+        0 0 15px rgba(0, 255, 65, 0.8),
+        inset 0 0 20px rgba(0, 255, 65, 0.1);
+    transform: translateY(-2px);
+}
+
+.remix-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+    transition: left 0.5s ease-out;
+}
+
+.remix-button:hover::before {
+    left: 100%;
+}
+
+/* Particules cyberpunk */
+.cyber-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #00ff41;
+    border-radius: 50%;
+    box-shadow: 0 0 3px rgba(0, 255, 65, 0.8);
+    opacity: 0;
+    transition: all 0.3s ease-out;
+}
+
+/* Espace invisible pour le scroll */
+.scroll-space {
+    height: 300vh;
+    background: transparent;
+    pointer-events: none;
+}
+
+/* Navbar qui apparaît à la fin du scroll */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: all 0.5s ease-out;
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 40px;
+    color: #00ff41;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+
+.navbar-logo:hover {
+    transform: rotate(180deg) scale(1.1);
+    filter: drop-shadow(0 0 10px rgba(0, 255, 65, 0.8));
+}
+
+.navbar-logo svg {
+    width: 100%;
+    height: 100%;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.navbar-link {
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Orbitron', monospace;
+    font-weight: 400;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.3s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar-link:hover {
+    color: #00ff41;
+    border-color: #00ff41;
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.6);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.navbar-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+    transition: left 0.5s ease-out;
+}
+
+.navbar-link:hover::before {
+    left: 100%;
+}
+
+/* Section finale */
+.final-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #000 0%, #001a00 50%, #003300 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+.final-content {
+    text-align: center;
+    color: #00ff41;
+    padding: 2rem;
+}
+
+.final-title {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+}
+
+.final-text {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    opacity: 0.8;
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+/* Responsive pour tablettes */
+@media (max-width: 1024px) {
+    .scrolling-text {
+        font-size: clamp(3rem, 12vw, 8rem);
+    }
+    
+    .main-title {
+        font-size: clamp(2.5rem, 8vw, 5rem);
+    }
+    
+    .sub-title {
+        font-size: clamp(1.2rem, 3.5vw, 2.5rem);
+    }
+    
+    .cyber-icon {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .remix-button {
+        font-size: 1.2rem;
+        padding: 0.8rem 2rem;
+    }
+}
+
+/* Responsive pour mobiles */
+@media (max-width: 768px) {
+    .navbar-content {
+        padding: 0 1rem;
+    }
+    
+    .navbar-logo {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .navbar-links {
+        gap: 1rem;
+    }
+    
+    .navbar-link {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .scrolling-text {
+        font-size: clamp(2.5rem, 10vw, 6rem);
+    }
+    
+    .main-title {
+        font-size: clamp(2rem, 7vw, 4rem);
+        margin-bottom: 1.5rem;
+    }
+    
+    .sub-title {
+        font-size: clamp(1rem, 3vw, 2rem);
+        margin-bottom: 1.5rem;
+    }
+    
+    .cyber-icon {
+        width: 80px;
+        height: 80px;
+        margin: 1.5rem 0;
+    }
+    
+    .remix-button {
+        font-size: 1rem;
+        padding: 0.7rem 1.5rem;
+    }
+}

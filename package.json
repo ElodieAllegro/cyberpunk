@@ -1,0 +1,15 @@
+{
+  "name": "cyberpunk-scroll-animation",
+  "version": "1.0.0",
+  "description": "A simple cyberpunk scroll animation using HTML, CSS, and JavaScript.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "http-server -c-1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

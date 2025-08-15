@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Scroll Animation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Animation principale -->
+        <div class="animation-viewport">
+            <!-- Grille cyberpunk en arrière-plan -->
+            <div class="cyber-grid"></div>
+            
+            <!-- Partie supérieure du texte SCROLLING -->
+            <div class="text-upper">
+                <div class="scrolling-text">SCROLLING</div>
+            </div>
+
+            <!-- Partie inférieure du texte SCROLLING -->
+            <div class="text-lower">
+                <div class="scrolling-text">SCROLLING</div>
+            </div>
+
+            <!-- Contenu révélé -->
+            <div class="revealed-content">
+                <h1 class="main-title">
+                    Custom
+                </h1>
+              <h2 class="sub-title">Tes sneakers</h2>
+
+                <!-- Icône cyberpunk (remplacera le modèle 3D) -->
+                <div class="cyber-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+
+                <button class="remix-button">Remix</button>
+            </div>
+
+            <!-- Particules cyberpunk -->
+            <div class="cyber-particles"></div>
+        </div>
+
+        <!-- Espace invisible pour permettre le scroll -->
+        <div class="scroll-space"></div>
+        
+        <!-- Navbar qui apparaît à la fin -->
+        <nav class="navbar">
+            <div class="navbar-content">
+                <div class="navbar-logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <div class="navbar-links">
+                    <a href="#accueil" class="navbar-link">Accueil</a>
+                    <a href="#apropos" class="navbar-link">À propos</a>
+                    <a href="#contact" class="navbar-link">Contact</a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Section finale -->
+        <div class="final-section">
+            <div class="final-content">
+                <h2 class="final-title">Animation Terminée</h2>
+                <p class="final-text">
+                    Cette démonstration présente une animation de scroll cyberpunk avec des effets de transition de texte split innovants.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
