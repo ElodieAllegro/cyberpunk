@@ -51,14 +51,14 @@ class CyberpunkScrollAnimation {
         this.renderer.setClearColor(0x000000, 0);
         
         // Ajouter l'éclairage
-        const ambientLight = new THREE.AmbientLight(0x00ff41, 0.6);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         this.scene.add(ambientLight);
         
-        const directionalLight = new THREE.DirectionalLight(0x00ff41, 0.8);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
         directionalLight.position.set(5, 5, 5);
         this.scene.add(directionalLight);
         
-        const pointLight = new THREE.PointLight(0x00ff41, 0.5);
+        const pointLight = new THREE.PointLight(0xffffff, 0.5);
         pointLight.position.set(-5, -5, 5);
         this.scene.add(pointLight);
         
@@ -85,13 +85,11 @@ class CyberpunkScrollAnimation {
                 // Appliquer un matériau cyberpunk
                 this.shoe.traverse((child) => {
                     if (child.isMesh) {
-                        child.material = new THREE.MeshPhongMaterial({
-                            color: 0x00ff41,
-                            emissive: 0x001100,
-                            shininess: 100,
-                            transparent: true,
-                            opacity: 0.9
-                        });
+                        // Garder le matériau original mais ajuster les propriétés
+                        if (child.material) {
+                            child.material.emissive = new THREE.Color(0x000000);
+                            child.material.shininess = 100;
+                        }
                     }
                 });
                 
@@ -136,18 +134,12 @@ class CyberpunkScrollAnimation {
         this.remixButton.addEventListener('mouseenter', () => {
             if (this.shoe) {
                 this.shoe.rotation.z = Math.PI;
-                this.shoe.scale.setScalar(this.shoe.scale.x * 1.1);
             }
         });
         
         this.remixButton.addEventListener('mouseleave', () => {
             if (this.shoe) {
                 this.shoe.rotation.z = 0;
-                const box = new THREE.Box3().setFromObject(this.shoe);
-                const size = box.getSize(new THREE.Vector3());
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = 2 / maxDim;
-                this.shoe.scale.setScalar(scale);
             }
         });
         
@@ -191,7 +183,18 @@ class CyberpunkScrollAnimation {
 
         // Animation de l'icône (suit le mouvement du texte)
         const iconTranslateY = (1 - titleProgress) * window.innerHeight;
-        this.shoeModel.style.transform = `translateY(${iconTranslateY}px) rotate(${this.scrollProgress * 360}deg) scale(1)`;
+        const finalScale = 1 + (titleProgress * 2); // Scale de 1 à 3
+        this.shoeModel.style.transform = `translateY(${iconTranslateY}px) rotate(${this.scrollProgress * 360}deg) scale(${finalScale})`;
+        
+        // Ajuster la taille du canvas pour qu'il soit aussi grand que le h2
+        const finalSize = 80 + (titleProgress * 120); // De 80px à 200px
+        this.shoeModel.style.width = `${finalSize}px`;
+        this.shoeModel.style.height = `${finalSize}px`;
+        
+        // Redimensionner le renderer
+        if (this.renderer) {
+            this.renderer.setSize(finalSize, finalSize);
+        }
         
         // Rotation supplémentaire du modèle 3D basée sur le scroll
         if (this.shoe) {
