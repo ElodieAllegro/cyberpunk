@@ -51,7 +51,7 @@ class CyberpunkScrollAnimation {
         this.renderer.setClearColor(0x000000, 0);
         
         // Ajouter l'éclairage
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
         this.scene.add(ambientLight);
         
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
