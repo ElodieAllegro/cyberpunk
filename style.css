@@ -418,8 +418,12 @@ body {
     backdrop-filter: blur(10px);
 }
 
-.step-card-stack[data-step="4"] {
-    z-index: 1;
+.step-card:hover {
+    border-color: #00ff41;
+    box-shadow: 
+        0 10px 30px rgba(0, 255, 65, 0.2),
+        inset 0 0 20px rgba(0, 255, 65, 0.05);
+    transform: translateY(-5px);
 }
 
 .step-card::before {
@@ -474,8 +478,12 @@ body {
     line-height: 1.5;
 }
 
-.cta-container {
-    text-align: center;
+/* Espace pour l'animation de scroll de la customisation */
+.customization-scroll-space {
+    height: 300vh;
+    background: transparent;
+    position: relative;
+    z-index: 5;
 }
 
 .start-customization-btn {

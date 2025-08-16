@@ -133,6 +133,34 @@ export class CyberpunkScrollAnimation {
         }
     }
     
+    updateCustomizationAnimation(progress) {
+        // Afficher la section de customisation
+        if (progress > 0) {
+            this.customizationSection.style.opacity = '1';
+        } else {
+            this.customizationSection.style.opacity = '0';
+        }
+        
+        // Animation des cartes qui s'empilent
+        this.stepCards.forEach((card, index) => {
+            const cardProgress = Math.max(0, Math.min(1, (progress - index * 0.2) / 0.2));
+            const translateY = (1 - cardProgress) * 100;
+            const stackOffset = index * 20; // Décalage pour l'effet d'empilement
+            
+            card.style.transform = `translateY(${translateY}vh) translateX(${stackOffset}px)`;
+            card.style.opacity = cardProgress;
+            
+            // Effet de bordure qui s'illumine
+            if (cardProgress > 0.8) {
+                card.style.borderColor = '#00ff41';
+                card.style.boxShadow = '0 10px 30px rgba(0, 255, 65, 0.4)';
+            } else {
+                card.style.borderColor = 'rgba(0, 255, 65, 0.2)';
+                card.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.5)';
+            }
+        });
+    }
+    
     destroy() {
         if (this.shoeModel3D) {
             this.shoeModel3D.destroy();
