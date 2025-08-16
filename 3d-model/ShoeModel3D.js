@@ -30,28 +30,36 @@ export class ShoeModel3D {
         this.renderer = new THREE.WebGLRenderer({ 
             canvas: this.canvas,
             alpha: true,
-            antialias: true 
+            antialias: true,
+            powerPreference: "high-performance"
         });
         this.renderer.setSize(120, 120);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.setClearColor(0x000000, 0);
+        this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 1.0;
         
-        // Ajouter l'éclairage blanc
-        this.scene.add(new THREE.AmbientLight(0xffffff, 1.5));
-        const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.8);
-        hemi.position.set(0, 2, 0);
-        this.scene.add(hemi);
-        const dir = new THREE.DirectionalLight(0xffffff, 1.5);
-        dir.position.set(3, 3, 3);
-        this.scene.add(dir);
-        const frontLight = new THREE.DirectionalLight(0xffffff, 1);
-        frontLight.position.copy(this.camera.position);
-        this.scene.add(frontLight);
-        const fillLight = new THREE.PointLight(0xffffff, 1);
-        fillLight.position.set(-2, 1, 2);
+        // Éclairage propre et équilibré
+        // Lumière ambiante douce
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        this.scene.add(ambientLight);
+        
+        // Lumière principale (key light)
+        const keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
+        keyLight.position.set(2, 2, 2);
+        keyLight.castShadow = false;
+        this.scene.add(keyLight);
+        
+        // Lumière de remplissage (fill light)
+        const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+        fillLight.position.set(-1, 0, 1);
         this.scene.add(fillLight);
-        const backFill = new THREE.DirectionalLight(0xffffff, 3);
-        backFill.position.set(-this.camera.position.x, -this.camera.position.y, -this.camera.position.z);
-        this.scene.add(backFill);
+        
+        // Lumière arrière (rim light)
+        const rimLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        rimLight.position.set(0, 1, -2);
+        this.scene.add(rimLight);
     }
     
     loadModel() {
@@ -78,8 +86,14 @@ export class ShoeModel3D {
                 this.shoe.traverse((child) => {
                     if (child.isMesh) {
                         if (child.material) {
-                            child.material.emissive = new THREE.Color(0x000000);
-                            child.material.shininess = 100;
+                            // Préserver les couleurs originales du modèle
+                            child.material.needsUpdate = true;
+                            
+                            // Ajuster les propriétés pour un rendu plus réaliste
+                            if (child.material.isMeshStandardMaterial) {
+                                child.material.roughness = 0.3;
+                                child.material.metalness = 0.1;
+                            }
                         }
                     }
                 });
@@ -124,6 +138,7 @@ export class ShoeModel3D {
     resizeRenderer(size) {
         if (this.renderer) {
             this.renderer.setSize(size, size);
+            this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         }
     }
     
