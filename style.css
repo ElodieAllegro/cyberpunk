@@ -368,7 +368,7 @@ body {
 
 /* Section étapes de customisation */
 .customization-section {
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     width: 100vw;
@@ -376,12 +376,9 @@ body {
     background: linear-gradient(135deg, #000 0%, #001a00 50%, #000 100%);
     z-index: 50;
     display: flex;
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-}
-
-.customization-section.visible {
     opacity: 1;
+    transform: translateY(100vh);
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Côté gauche - Cartes qui s'empilent */
@@ -494,21 +491,21 @@ body {
 
 /* Effet d'empilement avec décalage */
 .step-card-stack[data-step="1"].stacked {
-    z-index: 4;
+    z-index: 1;
 }
 
 .step-card-stack[data-step="2"].stacked {
-    z-index: 3;
+    z-index: 2;
     transform: translateY(10px) translateX(10px) scale(0.98);
 }
 
 .step-card-stack[data-step="3"].stacked {
-    z-index: 2;
+    z-index: 3;
     transform: translateY(20px) translateX(20px) scale(0.96);
 }
 
 .step-card-stack[data-step="4"].stacked {
-    z-index: 1;
+    z-index: 4;
     transform: translateY(30px) translateX(30px) scale(0.94);
 }
 
