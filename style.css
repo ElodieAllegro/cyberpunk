@@ -407,16 +407,19 @@ body {
     margin-bottom: 4rem;
 }
 
-.step-card-stack[data-step="3"] {
-    z-index: 2;
+.step-card {
+    background: rgba(0, 26, 0, 0.3);
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-out;
+    backdrop-filter: blur(10px);
 }
 
-.step-card:hover {
-    border-color: #00ff41;
-    box-shadow: 
-        0 10px 30px rgba(0, 255, 65, 0.2),
-        inset 0 0 20px rgba(0, 255, 65, 0.05);
-    transform: translateY(-5px);
+.step-card-stack[data-step="4"] {
+    z-index: 1;
 }
 
 .step-card::before {
