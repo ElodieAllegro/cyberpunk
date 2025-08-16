@@ -195,29 +195,6 @@ export class CyberpunkScrollAnimation {
             }
         });
     }
-}
-            
-            if (cardProgress > 0) {
-                card.classList.remove('stacked');
-                // Animation de dépilement vers le haut
-                const translateY = (1 - cardProgress) * (20 + index * 20);
-                const scale = 0.8 + (cardProgress * (0.2 + index * 0.05));
-                const rotation = (1 - cardProgress) * (index * 2);
-                
-                card.style.transform = `translateY(${translateY}px) scale(${scale}) rotate(${rotation}deg)`;
-                card.style.opacity = cardProgress;
-                card.style.zIndex = 10 - index; // Les cartes du dessus ont un z-index plus élevé
-            } else {
-                card.classList.add('stacked');
-                // Position initiale empilée
-                const initialTranslateY = 20 + index * 20;
-                const initialScale = 0.95 - index * 0.05;
-                card.style.transform = `translateY(${initialTranslateY}px) scale(${initialScale})`;
-                card.style.opacity = index === 0 ? 1 : 0.3; // Seule la première carte est visible
-                card.style.zIndex = 4 - index;
-            }
-        });
-    }
     
     destroy() {
         if (this.shoeModel3D) {
