@@ -3,7 +3,6 @@ import { ShoeModel3D } from '../3d-model/ShoeModel3D.js';
 export class CyberpunkScrollAnimation {
     constructor() {
         this.scrollProgress = 0;
-        this.customizationProgress = 0;
         this.textUpper = document.querySelector('.text-upper');
         this.textLower = document.querySelector('.text-lower');
         this.revealedContent = document.querySelector('.revealed-content');
@@ -13,8 +12,6 @@ export class CyberpunkScrollAnimation {
         this.remixButton = document.querySelector('.remix-button');
         this.particlesContainer = document.querySelector('.cyber-particles');
         this.navbar = document.querySelector('.navbar');
-        this.customizationSection = document.querySelector('.customization-section');
-        this.stepCards = document.querySelectorAll('.step-card-stack');
         
         // Instance du modèle 3D
         this.shoeModel3D = null;
@@ -68,14 +65,9 @@ export class CyberpunkScrollAnimation {
     handleScroll() {
         const scrollTop = window.pageYOffset;
         const maxScroll = window.innerHeight * 2;
-        const customizationStart = window.innerHeight * 2;
-        const customizationMaxScroll = window.innerHeight * 3;
-        
         this.scrollProgress = Math.min(scrollTop / maxScroll, 1);
-        this.customizationProgress = Math.max(0, Math.min((scrollTop - customizationStart) / (customizationMaxScroll - customizationStart), 1));
         
         this.updateAnimation();
-        this.updateCustomizationAnimation();
     }
 
     updateAnimation() {
@@ -139,34 +131,6 @@ export class CyberpunkScrollAnimation {
             this.navbar.style.opacity = '0';
             this.navbar.style.transform = 'translateY(-100%)';
         }
-        
-        // Masquer l'animation principale quand on arrive à la customisation
-        if (this.scrollProgress >= 1) {
-            document.querySelector('.animation-viewport').style.opacity = '0';
-        } else {
-            document.querySelector('.animation-viewport').style.opacity = '1';
-        }
-    }
-    
-    updateCustomizationAnimation() {
-        // Afficher/masquer la section de customisation
-        if (this.customizationProgress > 0) {
-            this.customizationSection.classList.add('visible');
-        } else {
-            this.customizationSection.classList.remove('visible');
-        }
-        
-        // Animation d'empilement des cartes
-        this.stepCards.forEach((card, index) => {
-            const cardDelay = index * 0.25; // Délai entre chaque carte
-            const cardProgress = Math.max(0, Math.min(1, (this.customizationProgress - cardDelay) / 0.25));
-            
-            if (cardProgress > 0) {
-                card.classList.add('stacked');
-            } else {
-                card.classList.remove('stacked');
-            }
-        });
     }
     
     destroy() {
