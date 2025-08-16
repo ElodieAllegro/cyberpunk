@@ -372,7 +372,7 @@ body {
     min-height: 100vh;
     background: linear-gradient(135deg, #000 0%, #001a00 50%, #000 100%);
     padding: 5rem 2rem;
-    z-index: 60;
+    z-index: 100;
     margin-top: 0;
 }
 
