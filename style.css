@@ -368,22 +368,24 @@ body {
 
 /* Section étapes de customisation */
 .customization-section {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    position: relative;
+    min-height: 100vh;
     background: linear-gradient(135deg, #000 0%, #001a00 50%, #000 100%);
-    display: flex;
-    z-index: 60;
-    opacity: 0;
-    transition: opacity 0.5s ease-out;
+    padding: 5rem 2rem;
+    z-index: 100;
+    margin-top: 0;
 }
 
-.customization-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
+/* Côté gauche - Cartes qui s'empilent */
+.customization-left {
+    width: 50%;
+    height: 100vh;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .customization-title {
