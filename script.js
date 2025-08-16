@@ -50,18 +50,6 @@ class CyberpunkScrollAnimation {
         this.renderer.setSize(120, 120);
         this.renderer.setClearColor(0x000000, 0);
         
-        // Ajouter l'éclairage
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-        this.scene.add(ambientLight);
-        
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        directionalLight.position.set(5, 5, 5);
-        this.scene.add(directionalLight);
-        
-        const pointLight = new THREE.PointLight(0xffffff, 0.5);
-        pointLight.position.set(-5, -5, 5);
-        this.scene.add(pointLight);
-        
         // Charger le modèle 3D
         const loader = new GLTFLoader();
         loader.load(
