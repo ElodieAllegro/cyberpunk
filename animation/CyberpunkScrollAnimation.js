@@ -68,8 +68,8 @@ export class CyberpunkScrollAnimation {
     handleScroll() {
         const scrollTop = window.pageYOffset;
         const maxScroll = window.innerHeight * 2;
-        const customizationStart = window.innerHeight * 1.5;
-        const customizationMaxScroll = window.innerHeight * 4;
+        const customizationStart = window.innerHeight * 2;
+        const customizationMaxScroll = window.innerHeight * 3;
         
         this.scrollProgress = Math.min(scrollTop / maxScroll, 1);
         this.customizationProgress = Math.max(0, Math.min((scrollTop - customizationStart) / (customizationMaxScroll - customizationStart), 1));
@@ -149,14 +149,17 @@ export class CyberpunkScrollAnimation {
     }
     
     updateCustomizationAnimation() {
-        // Animation d'apparition de la section depuis le bas
-        const sectionTransform = Math.max(0, 100 - (this.customizationProgress * 100));
-        this.customizationSection.style.transform = `translateY(${sectionTransform}vh)`;
+        // Afficher/masquer la section de customisation
+        if (this.customizationProgress > 0) {
+            this.customizationSection.classList.add('visible');
+        } else {
+            this.customizationSection.classList.remove('visible');
+        }
         
         // Animation d'empilement des cartes
         this.stepCards.forEach((card, index) => {
-            const cardDelay = 0.2 + (index * 0.2); // Délai entre chaque carte
-            const cardProgress = Math.max(0, Math.min(1, (this.customizationProgress - cardDelay) / 0.3));
+            const cardDelay = index * 0.25; // Délai entre chaque carte
+            const cardProgress = Math.max(0, Math.min(1, (this.customizationProgress - cardDelay) / 0.25));
             
             if (cardProgress > 0) {
                 card.classList.add('stacked');
