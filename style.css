@@ -277,6 +277,8 @@ body {
     height: 200vh;
     background: transparent;
     pointer-events: none;
+    position: relative;
+    z-index: 1;
 }
 
 /* Navbar qui apparaît à la fin du scroll */
@@ -402,11 +404,12 @@ body {
 
 /* Section étapes de customisation */
 .customization-section {
-    position: static;
+    position: relative;
     min-height: 100vh;
     background: linear-gradient(135deg, #000 0%, #001a00 50%, #000 100%);
     padding: 5rem 2rem;
-    z-index: 10;
+    z-index: 1;
+    margin-top: 0;
 }
 
 .customization-content {
