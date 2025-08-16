@@ -1,3 +1,6 @@
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
 class CyberpunkScrollAnimation {
     constructor() {
         this.scrollProgress = 0;
@@ -6,19 +9,114 @@ class CyberpunkScrollAnimation {
         this.revealedContent = document.querySelector('.revealed-content');
         this.mainTitle = document.querySelector('.main-title');
         this.subTitle = document.querySelector('.sub-title');
-        this.cyberIcon = document.querySelector('.cyber-icon');
+        this.shoeModel = document.querySelector('.shoe-model');
+        this.shoeCanvas = document.getElementById('shoe-canvas');
         this.remixButton = document.querySelector('.remix-button');
         this.finalSection = document.querySelector('.final-section');
         this.particlesContainer = document.querySelector('.cyber-particles');
         this.navbar = document.querySelector('.navbar');
         
+        // Variables Three.js
+        this.scene = null;
+        this.camera = null;
+        this.renderer = null;
+        this.shoe = null;
+        this.animationId = null;
+        
         this.init();
     }
 
     init() {
+        this.initThreeJS();
         this.createParticles();
         this.bindEvents();
         this.updateAnimation();
+    }
+    
+    initThreeJS() {
+        // Créer la scène
+        this.scene = new THREE.Scene();
+        
+        // Créer la caméra
+        this.camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        this.camera.position.set(0, 0, 3);
+        
+        // Créer le renderer
+        this.renderer = new THREE.WebGLRenderer({ 
+            canvas: this.shoeCanvas,
+            alpha: true,
+            antialias: true 
+        });
+        this.renderer.setSize(120, 120);
+        this.renderer.setClearColor(0x000000, 0);
+        
+        // Ajouter l'éclairage
+        const ambientLight = new THREE.AmbientLight(0x00ff41, 0.6);
+        this.scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0x00ff41, 0.8);
+        directionalLight.position.set(5, 5, 5);
+        this.scene.add(directionalLight);
+        
+        const pointLight = new THREE.PointLight(0x00ff41, 0.5);
+        pointLight.position.set(-5, -5, 5);
+        this.scene.add(pointLight);
+        
+        // Charger le modèle 3D
+        const loader = new GLTFLoader();
+        loader.load(
+            './models/AF1.glb',
+            (gltf) => {
+                this.shoe = gltf.scene;
+                
+                // Ajuster la taille et position du modèle
+                const box = new THREE.Box3().setFromObject(this.shoe);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+                
+                // Centrer le modèle
+                this.shoe.position.sub(center);
+                
+                // Redimensionner pour qu'il rentre dans le canvas
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const scale = 2 / maxDim;
+                this.shoe.scale.setScalar(scale);
+                
+                // Appliquer un matériau cyberpunk
+                this.shoe.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material = new THREE.MeshPhongMaterial({
+                            color: 0x00ff41,
+                            emissive: 0x001100,
+                            shininess: 100,
+                            transparent: true,
+                            opacity: 0.9
+                        });
+                    }
+                });
+                
+                this.scene.add(this.shoe);
+                this.animate3D();
+            },
+            (progress) => {
+                console.log('Chargement du modèle 3D:', (progress.loaded / progress.total * 100) + '%');
+            },
+            (error) => {
+                console.error('Erreur lors du chargement du modèle 3D:', error);
+            }
+        );
+    }
+    
+    animate3D() {
+        this.animationId = requestAnimationFrame(() => this.animate3D());
+        
+        if (this.shoe) {
+            // Rotation continue de la chaussure
+            this.shoe.rotation.y += 0.01;
+            this.shoe.rotation.x = Math.sin(Date.now() * 0.001) * 0.1;
+        }
+        
+        this.renderer.render(this.scene, this.camera);
     }
 
     createParticles() {
@@ -36,11 +134,21 @@ class CyberpunkScrollAnimation {
         
         // Effet hover sur le bouton
         this.remixButton.addEventListener('mouseenter', () => {
-            this.cyberIcon.style.transform = 'translateY(0) rotate(180deg) scale(1.1)';
+            if (this.shoe) {
+                this.shoe.rotation.z = Math.PI;
+                this.shoe.scale.setScalar(this.shoe.scale.x * 1.1);
+            }
         });
         
         this.remixButton.addEventListener('mouseleave', () => {
-            this.cyberIcon.style.transform = `translateY(0) rotate(${this.scrollProgress * 360}deg) scale(1)`;
+            if (this.shoe) {
+                this.shoe.rotation.z = 0;
+                const box = new THREE.Box3().setFromObject(this.shoe);
+                const size = box.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const scale = 2 / maxDim;
+                this.shoe.scale.setScalar(scale);
+            }
         });
         
         // Gestion du clic sur le logo pour retourner en haut
@@ -83,7 +191,12 @@ class CyberpunkScrollAnimation {
 
         // Animation de l'icône (suit le mouvement du texte)
         const iconTranslateY = (1 - titleProgress) * window.innerHeight;
-        this.cyberIcon.style.transform = `translateY(${iconTranslateY}px) rotate(${this.scrollProgress * 360}deg) scale(1)`;
+        this.shoeModel.style.transform = `translateY(${iconTranslateY}px) rotate(${this.scrollProgress * 360}deg) scale(1)`;
+        
+        // Rotation supplémentaire du modèle 3D basée sur le scroll
+        if (this.shoe) {
+            this.shoe.rotation.z = this.scrollProgress * Math.PI * 2;
+        }
 
         // Animation du bouton (suit le mouvement du texte)
         const buttonTranslateY = (1 - titleProgress) * window.innerHeight;
@@ -110,6 +223,15 @@ class CyberpunkScrollAnimation {
             this.navbar.style.transform = 'translateY(-100%)';
         }
     }
+    
+    destroy() {
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+        }
+        if (this.renderer) {
+            this.renderer.dispose();
+        }
+    }
 }
 
 // Initialisation quand le DOM est chargé
@@ -120,4 +242,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // Gestion du redimensionnement
 window.addEventListener('resize', () => {
     // Recalculer les animations si nécessaire
+    const animation = window.cyberpunkAnimation;
+    if (animation && animation.renderer) {
+        animation.renderer.setSize(120, 120);
+    }
+});
+
+// Stocker l'instance globalement pour le redimensionnement
+window.cyberpunkAnimation = null;
+document.addEventListener('DOMContentLoaded', () => {
+    window.cyberpunkAnimation = new CyberpunkScrollAnimation();
 });
