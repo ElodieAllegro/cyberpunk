@@ -12,6 +12,7 @@ export class CyberpunkScrollAnimation {
         this.remixButton = document.querySelector('.remix-button');
         this.particlesContainer = document.querySelector('.cyber-particles');
         this.navbar = document.querySelector('.navbar');
+        this.stepCards = document.querySelectorAll('.step-card-stack');
         
         // Instance du modèle 3D
         this.shoeModel3D = null;
