@@ -138,22 +138,64 @@ export class CyberpunkScrollAnimation {
     }
     
     animateStackedCards() {
-        // Calculer le scroll dans la section customisation
         const customizationSection = document.querySelector('.customization-section');
         if (!customizationSection) return;
         
         const rect = customizationSection.getBoundingClientRect();
-        const sectionTop = rect.top;
-        const sectionHeight = rect.height;
         const windowHeight = window.innerHeight;
         
-        // Progression dans la section (0 à 1)
-        const sectionProgress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / windowHeight));
+        // Calculer quand la section entre dans le viewport
+        const sectionTop = rect.top;
+        const sectionBottom = rect.bottom;
         
-        // Animer chaque carte selon la progression
+        // La carte 1 s'arrête quand elle arrive au niveau de l'image (milieu de l'écran)
+        const card1StopPoint = windowHeight / 2;
+        const isCard1Stopped = sectionTop <= card1StopPoint;
+        
+        // Progression pour l'empilement des autres cartes (commence quand card1 s'arrête)
+        const stackingStart = card1StopPoint;
+        const stackingProgress = isCard1Stopped ? 
+            Math.max(0, Math.min(1, (stackingStart - sectionTop) / (windowHeight * 0.8))) : 0;
+        
         this.stepCards.forEach((card, index) => {
-            const cardDelay = index * 0.15; // Délai entre chaque carte
-            const cardProgress = Math.max(0, Math.min(1, (sectionProgress - cardDelay) / 0.4));
+            if (index === 0) {
+                // Carte 1 : monte normalement puis s'arrête
+                if (isCard1Stopped) {
+                    card.style.transform = 'translateY(0) scale(1)';
+                    card.style.opacity = '1';
+                    card.style.zIndex = '1';
+                } else {
+                    // Suit le scroll normal
+                    const normalProgress = Math.max(0, (windowHeight - sectionTop) / windowHeight);
+                    const translateY = (1 - normalProgress) * 100;
+                    card.style.transform = `translateY(${translateY}px) scale(1)`;
+                    card.style.opacity = '1';
+                    card.style.zIndex = '1';
+                }
+            } else {
+                // Autres cartes : apparaissent en s'empilant par-dessus
+                const cardDelay = (index - 1) * 0.25; // Délai entre chaque carte
+                const cardProgress = Math.max(0, Math.min(1, (stackingProgress - cardDelay) / 0.3));
+                
+                if (cardProgress > 0) {
+                    // Animation d'empilement : vient du bas et se place par-dessus
+                    const translateY = (1 - cardProgress) * 50; // Vient du bas
+                    const scale = 0.9 + (cardProgress * 0.1); // Légère mise à l'échelle
+                    const rotation = (1 - cardProgress) * 5; // Légère rotation
+                    
+                    card.style.transform = `translateY(${translateY}px) scale(${scale}) rotate(${rotation}deg)`;
+                    card.style.opacity = cardProgress;
+                    card.style.zIndex = index + 1; // Z-index croissant pour l'empilement
+                } else {
+                    // Position initiale : invisible et en bas
+                    card.style.transform = 'translateY(50px) scale(0.9)';
+                    card.style.opacity = '0';
+                    card.style.zIndex = index + 1;
+                }
+            }
+        });
+    }
+}
             
             if (cardProgress > 0) {
                 card.classList.remove('stacked');
