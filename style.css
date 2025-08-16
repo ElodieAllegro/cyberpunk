@@ -383,10 +383,12 @@ body {
 .customization-left {
     flex: 1;
     padding: 2rem;
+    position: sticky;
+    top: 5rem;
+    height: fit-content;
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    align-items: flex-start;
 }
 
 .step-cards-container {
@@ -408,9 +410,22 @@ body {
     backdrop-filter: blur(10px);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    /* Styles initiaux contrôlés par JavaScript */
+}
+}
+
+/* États initiaux des cartes */
+.step-card-stack[data-step="1"] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    z-index: 1;
+}
+
+.step-card-stack[data-step="2"],
+.step-card-stack[data-step="3"],
+.step-card-stack[data-step="4"] {
     opacity: 0;
-    transform: translateY(50px) scale(0.9);
+    transform: translateY(100px) scale(0.9);
+    z-index: 2;
 }
 
 .step-card-stack:hover {
