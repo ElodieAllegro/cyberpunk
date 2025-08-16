@@ -404,12 +404,11 @@ body {
 
 /* Section étapes de customisation */
 .customization-section {
-    position: relative;
+    position: static;
     min-height: 100vh;
     background: linear-gradient(135deg, #000 0%, #001a00 50%, #000 100%);
     padding: 5rem 2rem;
-    z-index: 1;
-    margin-top: 0;
+    z-index: 10;
 }
 
 .customization-content {
