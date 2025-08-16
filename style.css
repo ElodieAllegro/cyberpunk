@@ -274,7 +274,7 @@ body {
 
 /* Espace invisible pour le scroll */
 .scroll-space {
-  height: 300vh;
+    height: 400vh;
     background: transparent;
     pointer-events: none;
     position: relative;
@@ -364,42 +364,6 @@ body {
 
 .navbar-link:hover::before {
     left: 100%;
-}
-
-/* Section finale */
-.final-section {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(135deg, #000 0%, #001a00 50%, #003300 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 40;
-    opacity: 0;
-    transition: opacity 0.5s ease-out;
-}
-
-.final-content {
-    text-align: center;
-    color: #00ff41;
-    padding: 2rem;
-}
-
-.final-title {
-    font-size: clamp(2rem, 6vw, 4rem);
-    font-weight: 700;
-    margin-bottom: 1rem;
-    text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
-}
-
-.final-text {
-    font-size: clamp(1rem, 3vw, 1.5rem);
-    opacity: 0.8;
-    max-width: 600px;
-    line-height: 1.6;
 }
 
 /* Section étapes de customisation */

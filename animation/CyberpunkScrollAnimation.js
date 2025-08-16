@@ -10,7 +10,6 @@ export class CyberpunkScrollAnimation {
         this.subTitle = document.querySelector('.sub-title');
         this.shoeModel = document.querySelector('.shoe-model');
         this.remixButton = document.querySelector('.remix-button');
-        this.finalSection = document.querySelector('.final-section');
         this.particlesContainer = document.querySelector('.cyber-particles');
         this.navbar = document.querySelector('.navbar');
         
@@ -123,9 +122,8 @@ export class CyberpunkScrollAnimation {
         });
 
         // Section finale
-        if (this.scrollProgress >= 1) {
-            this.finalSection.style.opacity = '1';
-            // Affichage de la navbar à la fin du scroll
+        if (this.scrollProgress >= 0.9) {
+            // Affichage de la navbar vers la fin du scroll
             this.navbar.style.opacity = '1';
             this.navbar.style.transform = 'translateY(0)';
         } else {
