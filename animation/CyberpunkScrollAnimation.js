@@ -148,20 +148,31 @@ export class CyberpunkScrollAnimation {
         const windowHeight = window.innerHeight;
         
         // Progression dans la section (0 à 1)
-        const sectionProgress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / (windowHeight + sectionHeight)));
+        const sectionProgress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / windowHeight));
         
         // Animer chaque carte selon la progression
         this.stepCards.forEach((card, index) => {
-            const cardDelay = index * 0.2; // Délai entre chaque carte
-            const cardProgress = Math.max(0, Math.min(1, (sectionProgress - cardDelay) / 0.3));
+            const cardDelay = index * 0.15; // Délai entre chaque carte
+            const cardProgress = Math.max(0, Math.min(1, (sectionProgress - cardDelay) / 0.4));
             
             if (cardProgress > 0) {
                 card.classList.remove('stacked');
-                card.style.transform = `translateY(${(1 - cardProgress) * 50}px) scale(${0.95 + cardProgress * 0.05})`;
+                // Animation de dépilement vers le haut
+                const translateY = (1 - cardProgress) * (20 + index * 20);
+                const scale = 0.8 + (cardProgress * (0.2 + index * 0.05));
+                const rotation = (1 - cardProgress) * (index * 2);
+                
+                card.style.transform = `translateY(${translateY}px) scale(${scale}) rotate(${rotation}deg)`;
                 card.style.opacity = cardProgress;
-                card.style.zIndex = 10 + index;
+                card.style.zIndex = 10 - index; // Les cartes du dessus ont un z-index plus élevé
             } else {
                 card.classList.add('stacked');
+                // Position initiale empilée
+                const initialTranslateY = 20 + index * 20;
+                const initialScale = 0.95 - index * 0.05;
+                card.style.transform = `translateY(${initialTranslateY}px) scale(${initialScale})`;
+                card.style.opacity = index === 0 ? 1 : 0.3; // Seule la première carte est visible
+                card.style.zIndex = 4 - index;
             }
         });
     }
