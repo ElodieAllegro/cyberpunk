@@ -368,12 +368,16 @@ body {
 
 /* Section étapes de customisation */
 .customization-section {
-    position: relative;
-    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     background: linear-gradient(135deg, #000 0%, #001a00 50%, #000 100%);
-    padding: 5rem 2rem;
-    z-index: 100;
-    margin-top: 0;
+    display: flex;
+    z-index: 60;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
 }
 
 .customization-content {
