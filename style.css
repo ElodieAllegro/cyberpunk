@@ -393,8 +393,11 @@ body {
         0 0 15px rgba(0, 255, 65, 0.5);
 }
 
-.step-card-stack[data-step="1"] {
-    z-index: 4;
+.customization-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 4rem;
+    font-weight: 300;
 }
 
 .steps-container {
@@ -404,15 +407,8 @@ body {
     margin-bottom: 4rem;
 }
 
-.step-card {
-    background: rgba(0, 26, 0, 0.3);
-    border: 1px solid rgba(0, 255, 65, 0.2);
-    border-radius: 12px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease-out;
-    backdrop-filter: blur(10px);
+.step-card-stack[data-step="3"] {
+    z-index: 2;
 }
 
 .step-card:hover {
