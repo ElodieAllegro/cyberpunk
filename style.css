@@ -392,23 +392,22 @@ body {
 }
 
 .step-cards-container {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     width: 350px;
-    height: 500px;
 }
 
 .step-card-stack {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 400px;
     background: rgba(0, 26, 0, 0.3);
     border: 1px solid rgba(0, 255, 65, 0.2);
     border-radius: 12px;
     padding: 3rem 2rem;
     backdrop-filter: blur(10px);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 }
 }
@@ -416,16 +415,26 @@ body {
 /* États initiaux des cartes */
 .step-card-stack[data-step="1"] {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1) rotate(0deg);
     z-index: 1;
 }
 
-.step-card-stack[data-step="2"],
-.step-card-stack[data-step="3"],
+.step-card-stack[data-step="2"] {
+    opacity: 0;
+    transform: translateY(0) scale(1) rotate(0deg);
+    z-index: 3;
+}
+
+.step-card-stack[data-step="3"] {
+    opacity: 0;
+    transform: translateY(0) scale(1) rotate(0deg);
+    z-index: 2;
+}
+
 .step-card-stack[data-step="4"] {
     opacity: 0;
-    transform: translateY(100px) scale(0.9);
-    z-index: 2;
+    transform: translateY(0) scale(1) rotate(0deg);
+    z-index: 1;
 }
 
 .step-card-stack:hover {
