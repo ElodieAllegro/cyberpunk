@@ -131,6 +131,38 @@ export class CyberpunkScrollAnimation {
             this.navbar.style.opacity = '0';
             this.navbar.style.transform = 'translateY(-100%)';
         }
+        
+        // Animation des cartes empilées
+        this.animateStackedCards();
+    }
+    
+    animateStackedCards() {
+        // Calculer le scroll dans la section customisation
+        const customizationSection = document.querySelector('.customization-section');
+        if (!customizationSection) return;
+        
+        const rect = customizationSection.getBoundingClientRect();
+        const sectionTop = rect.top;
+        const sectionHeight = rect.height;
+        const windowHeight = window.innerHeight;
+        
+        // Progression dans la section (0 à 1)
+        const sectionProgress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / (windowHeight + sectionHeight)));
+        
+        // Animer chaque carte selon la progression
+        this.stepCards.forEach((card, index) => {
+            const cardDelay = index * 0.2; // Délai entre chaque carte
+            const cardProgress = Math.max(0, Math.min(1, (sectionProgress - cardDelay) / 0.3));
+            
+            if (cardProgress > 0) {
+                card.classList.remove('stacked');
+                card.style.transform = `translateY(${(1 - cardProgress) * 50}px) scale(${0.95 + cardProgress * 0.05})`;
+                card.style.opacity = cardProgress;
+                card.style.zIndex = 10 + index;
+            } else {
+                card.classList.add('stacked');
+            }
+        });
     }
     
     destroy() {
