@@ -499,17 +499,17 @@ body {
 
 .step-card-stack[data-step="2"].stacked {
     z-index: 2;
-    transform: translateY(10px) translateX(10px) scale(0.98);
+    transform: translateY(10px);
 }
 
 .step-card-stack[data-step="3"].stacked {
     z-index: 3;
-    transform: translateY(20px) translateX(20px) scale(0.96);
+    transform: translateY(20px);
 }
 
 .step-card-stack[data-step="4"].stacked {
     z-index: 4;
-    transform: translateY(30px) translateX(30px) scale(0.94);
+    transform: translateY(30px);
 }
 
 .step-number {
